@@ -5,9 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XMouse"
         mc:Ignorable="d"
-        Title="MainWindow" Height="104.555" Width="358.157" Icon="Xbox-128.ico" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None" Loaded="Window_Loaded">
-    <Grid>
-        <Label Name="lbLeftThumb" Content="Label" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top"/>
-        <Label Name="lbRightThumb" Content="Label" HorizontalAlignment="Left" Margin="0,20,0,0" VerticalAlignment="Top"/>
-    </Grid>
+        Title="MainWindow" Height="100" Width="200" Icon="Xbox-128.ico" WindowStartupLocation="Manual" 
+        ResizeMode="NoResize" WindowStyle="None" AllowsTransparency="True" Loaded="Window_Loaded" Background="Transparent">
+    <Border CornerRadius="55" BorderThickness="5" BorderBrush="Transparent" Background="Black" Opacity="0.5">
+        <Grid>
+            <Image Name="imgGreen" Source="/Resources/xbox-green-128.png" Height="48" Width="48" HorizontalAlignment="Center" Margin="0,0,0,0" />
+            <Image Name="imgRed" Source="/Resources/xbox-red-128.png" Height="48" Width="48" HorizontalAlignment="Center" Margin="0,0,0,0" />
+        </Grid>
+    </Border>
 </Window>

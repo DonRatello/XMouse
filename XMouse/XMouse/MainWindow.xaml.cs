@@ -33,6 +33,15 @@ namespace XMouse
         {
             controller = new XController();
 
+            imgGreen.Visibility = Visibility.Hidden;
+            imgRed.Visibility = Visibility.Hidden;
+
+            // Handling window position
+            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
+            this.Left = desktopWorkingArea.Right - this.Width;
+            this.Top = desktopWorkingArea.Top + this.Height;
+
+            // Timer for UPDATE actions
             timer = new DispatcherTimer();
             timer.Tick += new EventHandler(dispatcherTimer_Tick);
             timer.Interval = new TimeSpan(0, 0, 0, 0, 30);
@@ -42,6 +51,17 @@ namespace XMouse
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             controller.Update();
+
+            if (controller.IsEnabled)
+            {
+                imgGreen.Visibility = Visibility.Visible;
+                imgRed.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                imgGreen.Visibility = Visibility.Hidden;
+                imgRed.Visibility = Visibility.Visible;
+            }
         }
     }
 }
