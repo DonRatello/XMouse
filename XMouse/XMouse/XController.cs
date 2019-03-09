@@ -1,6 +1,7 @@
 ﻿using SharpDX.XInput;
 using System;
 using System.Windows;
+using System.Threading;
 
 namespace XMouse
 {
@@ -36,11 +37,26 @@ namespace XMouse
             if (gamepad.Buttons.HasFlag(GamepadButtonFlags.Back) && gamepad.Buttons.HasFlag(GamepadButtonFlags.Start))
             {
                 IsEnabled = IsEnabled ? false : true;
-                System.Threading.Thread.Sleep(500);
+                Thread.Sleep(500); // Time to release buttons
             }
 
             if (!IsEnabled) return;
 
+            // LEFT CLICK
+            if (gamepad.Buttons.HasFlag(GamepadButtonFlags.A))
+            {
+                SimulateLeftClick();
+                return;
+            }
+
+            // RIGHT CLICK
+            if (gamepad.Buttons.HasFlag(GamepadButtonFlags.B))
+            {
+                SimulateRightClick();
+                return;
+            }
+
+            // CURSOR MOVEMENTS
             thumbLeft.X = (Math.Abs((float)gamepad.LeftThumbX) < deadband) ? 0 : (float)gamepad.LeftThumbX / short.MinValue * -100;
             thumbLeft.Y = (Math.Abs((float)gamepad.LeftThumbY) < deadband) ? 0 : (float)gamepad.LeftThumbY / short.MaxValue * 100;
             //thumbRight.Y = (Math.Abs((float)gamepad.RightThumbX) < deadband) ? 0 : (float)gamepad.RightThumbX / short.MaxValue * 100;
@@ -73,6 +89,16 @@ namespace XMouse
             const double min = 0;
 
             return (value - min) / (max - min);
+        }
+
+        protected void SimulateLeftClick()
+        {
+            MouseHandler.LeftMouseClick();
+        }
+
+        protected void SimulateRightClick()
+        {
+            MouseHandler.RightMouseClick();
         }
     }
 }
