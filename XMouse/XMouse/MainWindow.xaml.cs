@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace XMouse
 {
@@ -20,9 +21,27 @@ namespace XMouse
     /// </summary>
     public partial class MainWindow : Window
     {
+        XController controller;
+        DispatcherTimer timer;
+
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            controller = new XController();
+
+            timer = new DispatcherTimer();
+            timer.Tick += new EventHandler(dispatcherTimer_Tick);
+            timer.Interval = new TimeSpan(0, 0, 0, 0, 30);
+            timer.Start();
+        }
+
+        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            controller.Update();
         }
     }
 }

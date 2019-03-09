@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XMouse"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" Icon="Xbox-128.ico" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None">
+        Title="MainWindow" Height="104.555" Width="358.157" Icon="Xbox-128.ico" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None" Loaded="Window_Loaded">
     <Grid>
-        
+        <Label Name="lbLeftThumb" Content="Label" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top"/>
+        <Label Name="lbRightThumb" Content="Label" HorizontalAlignment="Left" Margin="0,20,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
