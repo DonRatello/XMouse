@@ -1,17 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace XMouse
@@ -22,7 +10,9 @@ namespace XMouse
     public partial class MainWindow : Window
     {
         XController controller;
+        ProcessObserver observer;
         DispatcherTimer timer;
+        DispatcherTimer processObserverTimer;
 
         public MainWindow()
         {
@@ -32,6 +22,7 @@ namespace XMouse
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             controller = new XController();
+            observer = new ProcessObserver();
 
             imgGreen.Visibility = Visibility.Hidden;
             imgRed.Visibility = Visibility.Hidden;
@@ -46,6 +37,12 @@ namespace XMouse
             timer.Tick += new EventHandler(dispatcherTimer_Tick);
             timer.Interval = new TimeSpan(0, 0, 0, 0, 30);
             timer.Start();
+
+            // Timer for Process observer
+            processObserverTimer = new DispatcherTimer();
+            processObserverTimer.Tick += new EventHandler(processObserver_Tick);
+            processObserverTimer.Interval = new TimeSpan(0, 0, 0, 1, 0);
+            processObserverTimer.Start();
         }
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
@@ -54,14 +51,38 @@ namespace XMouse
 
             if (controller.IsEnabled)
             {
-                imgGreen.Visibility = Visibility.Visible;
-                imgRed.Visibility = Visibility.Hidden;
+                SetImgGreen();
             }
             else
             {
-                imgGreen.Visibility = Visibility.Hidden;
-                imgRed.Visibility = Visibility.Visible;
+                SetImgRed();
             }
+        }
+
+        private void processObserver_Tick(object sender, EventArgs e)
+        {
+            if (observer.ControlShouldBeStopped())
+            {
+                timer.Stop();
+                SetImgRed();
+            }
+            else
+            {
+                timer.Start();
+                SetImgGreen();
+            }
+        }
+
+        private void SetImgGreen()
+        {
+            imgGreen.Visibility = Visibility.Visible;
+            imgRed.Visibility = Visibility.Hidden;
+        }
+
+        private void SetImgRed()
+        {
+            imgGreen.Visibility = Visibility.Hidden;
+            imgRed.Visibility = Visibility.Visible;
         }
     }
 }
